@@ -36,7 +36,9 @@ jobs:
           ProjRoot=$PWD
           cd $ProjRoot/Surge/Ruleset/Extra/Telegram/
           wget https://cdn.jsdelivr.net/gh/Loyalsoldier/surge-rules@release/telegramcidr.txt -O telegramcidr.txt
-          cat Telegram.list telegramcidr.txt | sort | uniq > Telegram.list
+          sed -ri "s/([0-9])$/\1,no-resolve/g" ./telegramcidr.txt
+          cat Telegram.list telegramcidr.txt | sort | uniq > uniq.txt
+          mv uniq.txt Telegram.list
           git add Telegram.list
 
       - name: 提交变更
